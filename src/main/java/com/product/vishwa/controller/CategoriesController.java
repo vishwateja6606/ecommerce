@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CategoriesController {
 	private CategoryService categoryservice;
-	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@DeleteMapping("/{id}")
 	public void deletecategory(@PathVariable Long id) {
 		categoryservice.deletecategory(id);
@@ -32,6 +33,7 @@ public class CategoriesController {
 	   public List<Categorydto> getAllCategories(){
         return categoryservice.getallcategory();
     }
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping
 	  public ResponseEntity<?> createCategory(@RequestBody Categorydto categoryDTO){
         Categorydto savedCategory = categoryservice.createCategory(categoryDTO);
